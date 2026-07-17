@@ -1,0 +1,237 @@
+/* ===========================
+   LOGIN MODERN - EDUMONITOR
+===========================*/
+
+.edu-login-shell{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    min-height:100vh;
+    overflow:hidden;
+    background:#fff;
+}
+
+/* ===========================
+   LEFT SIDE
+===========================*/
+
+.edu-login-visual{
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.edu-login-image-wrapper{
+    position:absolute;
+    inset:0;
+}
+
+.edu-login-visual-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scale(1.03);
+}
+
+.edu-login-children-layer{
+    display:none;
+}
+
+.edu-login-visual-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        135deg,
+        rgba(17,60,130,.72),
+        rgba(0,95,180,.60),
+        rgba(0,0,0,.25)
+    );
+    backdrop-filter:blur(2px);
+}
+
+/* ===========================
+   CONTENT
+===========================*/
+
+.edu-login-visual-content{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:650px;
+    padding:60px;
+    color:white;
+}
+
+.edu-login-brand{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:35px;
+}
+
+.edu-login-school-logo{
+    width:95px;
+    height:95px;
+    object-fit:contain;
+    background:rgba(255,255,255,.95);
+    border-radius:20px;
+    padding:12px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
+
+.edu-login-brand strong{
+    display:block;
+    font-size:34px;
+    font-weight:800;
+    line-height:1.1;
+}
+
+.edu-login-brand small{
+    font-size:16px;
+    opacity:.92;
+}
+
+.edu-login-eyebrow{
+    display:inline-block;
+    background:rgba(255,255,255,.15);
+    padding:8px 18px;
+    border-radius:999px;
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+}
+
+.edu-login-message h1{
+    font-size:54px;
+    font-weight:800;
+    line-height:1.08;
+    margin:0 0 20px;
+}
+
+.edu-login-message p{
+    font-size:18px;
+    line-height:1.8;
+    max-width:560px;
+    opacity:.95;
+}
+
+/* ===========================
+   BENEFITS
+===========================*/
+
+.edu-login-benefits{
+    margin-top:35px;
+    display:grid;
+    gap:18px;
+}
+
+.edu-login-benefits>div{
+    display:flex;
+    gap:18px;
+    align-items:flex-start;
+    background:rgba(255,255,255,.12);
+    padding:18px;
+    border-radius:18px;
+    backdrop-filter:blur(8px);
+}
+
+.edu-login-benefits span{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:white;
+    color:#0f5bd8;
+    flex-shrink:0;
+}
+
+.edu-login-benefits strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.edu-login-benefits small{
+    opacity:.9;
+    line-height:1.6;
+}
+
+/* ===========================
+   FOOTER
+===========================*/
+
+.edu-login-visual-footer{
+    margin-top:35px;
+    display:flex;
+    gap:24px;
+    font-size:15px;
+    opacity:.95;
+}
+
+.edu-login-visual-footer span{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+/* ===========================
+   RIGHT SIDE
+===========================*/
+
+.edu-login-form-panel{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+    background:#fff;
+}
+
+.edu-login-form-content{
+    width:100%;
+    max-width:470px;
+}
+
+.edu-login-mobile-brand{
+    display:none;
+}
+
+.edu-login-submit{
+    transition:.25s;
+}
+
+.edu-login-submit:hover{
+    transform:translateY(-2px);
+}
+
+/* ===========================
+   MOBILE
+===========================*/
+
+@media (max-width:980px){
+
+.edu-login-shell{
+    grid-template-columns:1fr;
+}
+
+.edu-login-visual{
+    display:none;
+}
+
+.edu-login-mobile-brand{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.edu-login-mobile-logo{
+    width:55px;
+    height:55px;
+    object-fit:contain;
+}
+
+}
