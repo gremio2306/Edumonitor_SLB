@@ -26,7 +26,7 @@ Nur Mahmudi (2400016041) UI
 - Supabase
 
 ## URL Aplikasi (Deployed)
-[Masukkan URL aplikasi yang sudah di-deploy]
+https://edumonitor-slb.vercel.app/
 
 ## URL Repository GitHub
 https://github.com/gremio2306/Edumonitor_SLB.git
