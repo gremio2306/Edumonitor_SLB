@@ -1,0 +1,1429 @@
+1.srs.md 
+Software Requirements Specification (SRS)
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. INTRODUCTION
+1.1 Purpose
+Dokumen ini mendefinisikan kebutuhan fungsional dan non-fungsional untuk Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta. Dokumen ini berfungsi sebagai Source of Truth (SoT-1) utama yang menjadi acuan bagi seluruh artefak turunan dalam siklus pengembangan sistem selanjutnya (seperti Information Architecture, Design System, User Flows, dan Prototype).
+1.2 Scope
+Business Goals
+Membantu guru mencatat perkembangan siswa berkebutuhan khusus secara terstruktur dan konsisten.
+Memudahkan proses monitoring perkembangan siswa yang terintegrasi.
+Mempermudah dan mempercepat komunikasi serta penyampaian informasi perkembangan siswa kepada wali murid secara real-time.
+Menyediakan sistem notifikasi darurat yang cepat ketika siswa mengalami kondisi tertentu (seperti tantrum).
+In Scope
+Sistem autentikasi pengguna (Login).
+Manajemen data master (Siswa, Guru, Wali Murid) oleh Admin Sekolah.
+Pencatatan aktivitas harian dan evaluasi (Input Perkembangan Siswa, Input Penilaian, Jurnal Harian) oleh Guru.
+Fitur monitoring, riwayat, dan pelaporan perkembangan yang dapat diakses oleh Guru dan Wali Murid.
+Sistem pengiriman dan penerimaan notifikasi darurat (Panic Button) dari Guru ke Security.
+Out of Scope
+Belum ditemukan pada hasil wawancara/observasi (Segala fitur di luar cakupan di atas tidak dimasukkan ke dalam ruang lingkup sistem ini).
+1.3 Stakeholders
+Stakeholder
+Role
+Responsibility
+Guru
+Pengguna Utama
+Mencatat perkembangan, penilaian, jurnal harian, memantau riwayat siswa, dan mengirimkan notifikasi darurat.
+Wali Murid
+Pengguna
+Memantau perkembangan anak dan menerima laporan serta notifikasi perkembangan anak secara berkala.
+Admin Sekolah
+Pengelola Sistem
+Mengelola data master (guru, siswa, wali murid), menjaga keamanan data terpusat, dan mengelola pengguna sistem.
+Security
+Petugas Keamanan
+Menerima notifikasi darurat dari guru dan melakukan tindakan penanganan cepat terhadap siswa di lapangan.
+
+1.4 Definitions
+Term
+Definition
+SLB
+Sekolah Luar Biasa.
+Tantrum
+Kondisi emosional meledak-ledak pada siswa berkebutuhan khusus yang memerlukan penanganan darurat segera.
+Panic Button
+Fitur tombol darurat pada aplikasi yang digunakan guru untuk mengirimkan notifikasi bantuan instan kepada pihak keamanan.
+BB
+Belum Berkembang (Kategori evaluasi perkembangan siswa).
+MB
+Mulai Berkembang (Kategori evaluasi perkembangan siswa).
+BSH
+Berkembang Sesuai Harapan (Kategori evaluasi perkembangan siswa).
+BSB
+Berkembang Sangat Baik (Kategori evaluasi perkembangan siswa).
+
+1.5 References
+Hasil Wawancara Guru SLB Negeri Pembina Yogyakarta
+Hasil Observasi Lapangan
+Dokumen Analisis Kebutuhan
+Use Case Diagram Proyek
+Class Diagram Proyek
+2. PRODUCT OVERVIEW
+2.1 Product Summary
+Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta adalah sebuah sistem terintegrasi yang dirancang untuk menggantikan pencatatan perkembangan siswa konvensional (manual menggunakan laptop) menjadi sistem berbasis web yang konsisten dan terpusat. Sistem ini memfasilitasi guru dalam mendokumentasikan observasi harian, nilai akademik/non-akademik, jurnal kelas, serta menyediakan komunikasi informasi perkembangan yang cepat kepada wali murid dan mekanisme tanggap darurat yang efisien bersama pihak keamanan sekolah.
+2.2 User Types
+User Type
+Description
+Admin
+Pengguna dengan hak akses penuh terhadap pengelolaan data master internal sekolah.
+Guru
+Pengguna yang melakukan interaksi harian terhadap pencatatan perkembangan dan keselamatan siswa.
+Wali Murid
+Pengguna eksternal yang menerima informasi evaluasi dan perkembangan anak secara berkala.
+Security
+Pengguna operasional lapangan yang menerima sinyal kedaruratan dari guru.
+
+2.3 User Goals
+User Type: Admin
+Dapat mengelola data siswa secara terpusat.
+Dapat mengelola data guru secara terpusat.
+Dapat mengelola data wali murid secara terpusat.
+User Type: Guru
+Dapat menginput data perkembangan siswa secara konsisten.
+Dapat menginput hasil penilaian siswa melalui berbagai metode.
+Dapat menyusun jurnal harian aktivitas mengajar.
+Dapat memantau riwayat perkembangan siswa yang dibimbing.
+Dapat memanggil bantuan keamanan dengan cepat melalui sistem saat situasi darurat.
+User Type: Wali Murid
+Dapat memantau perkembangan anak secara berkala dan real-time.
+Dapat menerima laporan perkembangan tanpa harus menunggu komunikasi manual via WhatsApp.
+Dapat menerima notifikasi penting terkait anak.
+User Type: Security
+Dapat menerima notifikasi darurat (Panic Button) dari guru agar dapat segera menuju lokasi untuk memberikan penanganan.
+2.4 Operating Environment
+Frontend: Berbasis Web (Detail teknologi belum ditemukan pada hasil wawancara/observasi)
+Backend: Belum ditemukan pada hasil wawancara/observasi
+Database: Terpusat dan Aman (Detail teknologi belum ditemukan pada hasil wawancara/observasi)
+Deployment: Belum ditemukan pada hasil wawancara/observasi
+Browser Support: Belum ditemukan pada hasil wawancara/observasi
+Mobile Support: Belum ditemukan pada hasil wawancara/observasi
+2.5 Assumptions
+Pengguna (Guru, Wali Murid, Admin, Security) memiliki perangkat yang terhubung ke jaringan internet untuk mengakses sistem berbasis web ini.
+2.6 Constraints
+Pencatatan perkembangan siswa harus mengakomodasi kondisi unik siswa berkebutuhan khusus dengan pembelajaran yang bersifat individual (menyesuaikan rasio guru dan siswa).
+3. SYSTEM FEATURES
+Feature ID: F001 - Login
+Description: Sistem menyediakan mekanisme autentikasi untuk memastikan pengguna masuk sesuai peran masing-masing.
+Functional Requirements:
+FR-001-01: Sistem harus menyediakan form login bagi seluruh aktor (Admin, Guru, Wali Murid, Security).
+FR-001-02: Sistem harus membatasi hak akses halaman berdasarkan peran aktor yang berhasil login.
+Feature ID: F002 - Kelola Data Siswa
+Description: Mengelola data master siswa yang disimpan dalam sistem secara terpusat.
+Functional Requirements:
+FR-002-01: Sistem harus memungkinkan Admin untuk menambah, mengubah, melihat, dan menghapus data siswa.
+FR-002-02: Sistem harus dapat menyimpan atribut siswa yang mencakup: Tanggal Lahir dan Kondisi Khusus (jenis kebutuhan khusus).
+Catatan: Atribut lain seperti ID Siswa, Nama, Jenis Kelamin, Alamat, Kelas, NIS/NISN belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F003 - Kelola Guru
+Description: Mengelola data master guru yang bertugas di sekolah.
+Functional Requirements:
+FR-003-01: Sistem harus memungkinkan Admin untuk menambah, mengubah, melihat, dan menghapus data guru.
+FR-003-02: Sistem harus dapat menyimpan atribut guru yang mencakup: ID Guru, Nama, Email, dan Nomor HP.
+Feature ID: F004 - Kelola Wali Murid
+Description: Mengelola data master wali murid dari siswa terdaftar.
+Functional Requirements:
+FR-004-01: Sistem harus memungkinkan Admin untuk menambah, mengubah, melihat, dan menghapus data wali murid.
+FR-004-02: Sistem harus dapat menyimpan atribut wali murid yang mencakup: ID, Nama, Alamat, dan Nomor HP.
+Feature ID: F005 - Input Perkembangan Siswa
+Description: Guru mencatat perkembangan kemampuan siswa berkebutuhan khusus secara berkala berdasarkan hasil observasi.
+Functional Requirements:
+FR-005-01: Sistem harus menyediakan form bagi Guru untuk menginput perkembangan siswa.
+FR-005-02: Sistem harus mencatat parameter perkembangan yang meliputi: Siswa yang dinilai, Tanggal pencatatan, Data perkembangan siswa, dan Catatan perkembangan siswa.
+FR-005-03: Sistem harus menyediakan pilihan kategori perkembangan: BB (Belum Berkembang), MB (Mulai Berkembang), BSH (Berkembang Sesuai Harapan), dan BSB (Berkembang Sangat Baik).
+FR-005-04: Sistem harus mendukung pencatatan kemampuan yang berkaitan dengan kemandirian, kedisiplinan, kemampuan motorik, kemampuan akademik, dan kemampuan bina diri.
+Catatan: Format form input, kewajiban pengisian seluruh aspek, dan indikator detail per aspek belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F006 - Input Penilaian
+Description: Guru menginput hasil evaluasi pembelajaran siswa berdasarkan metode tertentu.
+Functional Requirements:
+FR-006-01: Sistem harus menyediakan form bagi Guru untuk memasukkan hasil penilaian siswa.
+FR-006-02: Sistem harus mengakomodasi input penilaian berdasarkan metode: Observasi, Tes lisan, dan Tes tertulis.
+Catatan: Format nilai (angka/huruf/skor), rentang nilai, bobot penilaian, kriteria kelulusan, maupun struktur form penilaian secara rinci belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F007 - Jurnal Harian
+Description: Guru mencatat aktivitas harian atau kejadian khusus yang terjadi selama proses pembelajaran kelas.
+Functional Requirements:
+FR-007-01: Sistem harus menyediakan form bagi Guru untuk mengisi jurnal harian.
+FR-007-02: Sistem harus menyimpan parameter jurnal yang meliputi: Tanggal, Catatan kegiatan harian siswa, dan Catatan kejadian penting atau kejadian khusus.
+Catatan: Format baku jurnal, struktur field, dan aturan pengisian per siswa atau per kelas belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F008 - Monitoring Perkembangan
+Description: Guru dan Wali Murid memantau perkembangan siswa secara berkelanjutan dan terintegrasi.
+Functional Requirements:
+FR-008-01: Sistem harus menampilkan data perkembangan siswa secara real-time setelah data dimasukkan oleh guru.
+FR-008-02: Sistem harus memungkinkan Guru memantau perkembangan seluruh siswa yang menjadi tanggung jawabnya.
+FR-008-03: Sistem harus memungkinkan Wali Murid memantau perkembangan anaknya sendiri.
+Feature ID: F009 - Riwayat Perkembangan
+Description: Guru dapat mengakses dan melihat kembali data-data perkembangan siswa yang telah dicatat sebelumnya.
+Functional Requirements:
+FR-009-01: Sistem harus dapat menampilkan kumpulan data historis perkembangan yang pernah diinput oleh Guru berdasarkan runtutan waktu.
+Catatan: Mekanisme visualisasi tampilan riwayat perkembangan secara rinci belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F010 - Laporan Perkembangan
+Description: Wali Murid menerima laporan hasil perkembangan anak secara berkala melalui sistem.
+Functional Requirements:
+FR-010-01: Sistem harus menyajikan laporan perkembangan anak kepada Wali Murid yang bersangkutan secara berkala.
+Catatan: Bentuk penyajian laporan (grafik, tabel, dashboard, PDF) serta kemampuan unduh/cetak belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F011 - Notifikasi Darurat (Panic Button)
+Description: Guru mengirimkan sinyal darurat instan kepada pihak keamanan (Security) ketika terjadi kondisi kritis/tantrum pada siswa.
+Functional Requirements:
+FR-011-01: Sistem harus menyediakan tombol darurat (Panic Button) yang mudah diakses oleh Guru pada aplikasi.
+FR-011-02: Sesaat setelah tombol ditekan, sistem harus mengirimkan notifikasi darurat langsung kepada akun Security secara instan.
+FR-011-03: Sistem harus menyediakan antarmuka bagi Security untuk menerima notifikasi darurat tersebut secara langsung.
+Catatan: Bentuk notifikasi (suara/teks/visual), informasi detail di dalam notifikasi (nama guru/lokasi/siswa), serta penyimpanan log/riwayat panic button belum ditemukan pada hasil wawancara/observasi.
+Feature ID: F012 - Notifikasi kepada Wali Murid
+Description: Sistem memberikan informasi atau pemberitahuan perkembangan kepada Wali Murid.
+Functional Requirements:
+FR-012-01: Sistem harus mengirimkan notifikasi kepada Wali Murid ketika terdapat kondisi penting atau pembaruan berkala yang berkaitan dengan anaknya.
+4. BUSINESS RULES
+4.1 Business Rules Table
+Rule ID
+Rule Name
+Description
+BR-001
+Pembelajaran Individual
+Proses pembelajaran dan penilaian disesuaikan dengan kapasitas serta kemampuan masing-masing siswa berkebutuhan khusus.
+BR-002
+Ketergantungan Data Perkembangan
+Data perkembangan siswa bergantung penuh pada entitas data siswa (Mencerminkan hubungan composition pada Class Diagram).
+BR-003
+Tanggung Jawab Pengajaran
+Guru hanya bertanggung jawab mengajar, menilai, dan mencatat perkembangan siswa yang berada di dalam kelas yang menjadi tanggung jawabnya.
+
+4.2 Ownership Rules
+Data perkembangan siswa dimiliki secara institusional oleh SLB Negeri Pembina Yogyakarta, dicatat oleh Guru, dikelola administrasinya oleh Admin, dan dapat dilihat oleh Wali Murid dari siswa terkait.
+4.3 Data Retention Rules
+Belum ditemukan pada hasil wawancara/observasi.
+4.4 Data Validation Rules
+Belum ditemukan pada hasil wawancara/observasi.
+5. EXTERNAL INTERFACES
+5.1 User Interface Requirements
+Antarmuka berupa aplikasi berbasis web. (Aturan responsivitas layout, navigasi, dan aspek aksesibilitas khusus disesuaikan dengan standar umum web karena detail spesifik belum ditemukan pada hasil wawancara/observasi).
+5.2 External Systems
+Belum ditemukan pada hasil wawancara/observasi.
+5.3 Communication Requirements
+Protocols: Web-based protocols (HTTPS/REST API/WebSocket) digunakan untuk memastikan pengiriman notifikasi Panic Button berjalan cepat.
+Formats: JSON / Format data standar web lainnya.
+6. NON-FUNCTIONAL REQUIREMENTS
+6.1 Performance
+Sistem harus mengirimkan Notifikasi Darurat (Panic Button) dari Guru ke Security sesegera mungkin agar respons penanganan di lapangan dapat berjalan lebih cepat dibandingkan proses manual.
+6.2 Security
+Sistem harus menjamin bahwa data master sekolah dan riwayat perkembangan siswa tersimpan secara aman dan terpusat.
+Akses ke data perkembangan siswa dibatasi dengan ketat sesuai peran dan kepemilikan hubungan wali murid terhadap siswa.
+6.3 Availability
+Belum ditemukan pada hasil wawancara/observasi.
+6.4 Reliability
+Belum ditemukan pada hasil wawancara/observasi.
+6.5 Scalability
+Belum ditemukan pada hasil wawancara/observasi.
+6.6 Maintainability
+Belum ditemukan pada hasil wawancara/observasi.
+6.7 Usability
+Aplikasi harus dirancang agar fitur Panic Button mudah dijangkau dan ditekan oleh Guru saat menghadapi kondisi siswa tantrum.
+7. PERMISSIONS AND ACCESS CONTROL
+Capability
+Admin Sekolah
+Guru
+Wali Murid
+Security
+Login
+✓
+✓
+✓
+✓
+Kelola Data Siswa
+✓
+-
+-
+-
+Kelola Guru
+✓
+-
+-
+-
+Kelola Wali Murid
+✓
+-
+-
+-
+Input Perkembangan Siswa
+-
+✓
+-
+-
+Input Penilaian
+-
+✓
+-
+-
+Jurnal Harian
+-
+✓
+-
+-
+Monitoring Perkembangan
+-
+✓
+✓ (Melihat anak sendiri)
+-
+Riwayat Perkembangan
+-
+✓
+-
+-
+Laporan Perkembangan
+-
+-
+✓ (Melihat anak sendiri)
+-
+Kirim Notifikasi Darurat
+-
+✓
+-
+-
+Terima Notifikasi Darurat
+-
+-
+-
+✓
+Terima Notifikasi Wali
+-
+-
+✓
+-
+
+Additional rules:
+Wali murid hanya diberikan hak akses untuk memantau data perkembangan dan laporan perkembangan yang merujuk pada anaknya sendiri.
+Mekanisme approval data (oleh Kepala Sekolah/Admin) sebelum data tampil ke Wali Murid dinyatakan tidak ada atau belum ditemukan pada hasil wawancara/observasi, sehingga visibilitas data monitoring bersifat langsung (real-time setelah disimpan oleh Guru).
+8. FEATURE INVENTORY
+Feature ID
+Feature Name
+Priority
+F001
+Login
+High
+F002
+Kelola Data Siswa
+High
+F003
+Kelola Guru
+High
+F004
+Kelola Wali Murid
+High
+F005
+Input Perkembangan Siswa
+High
+F006
+Input Penilaian
+High
+F007
+Jurnal Harian
+High
+F008
+Monitoring Perkembangan
+High
+F009
+Riwayat Perkembangan
+Medium
+F010
+Laporan Perkembangan
+High
+F011
+Notifikasi Darurat (Panic Button)
+High
+F012
+Notifikasi kepada Wali Murid
+Medium
+
+
+
+2. information_architecture.md 
+
+Information Architecture (IA)
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. DOCUMENT OVERVIEW
+1.1 Purpose
+Dokumen ini mendefinisikan Arsitektur Informasi (IA) dari sistem berbasis web ini. IA berfungsi sebagai Source of Truth #2 (SoT-2) yang diturunkan langsung dari SoT-1 (SRS) dan digunakan secara ketat sebagai acuan untuk membuat struktur halaman frontend, sistem navigasi, skema rute (routing), relasi antar-layar, serta pengembangan High-Fidelity Prototype.
+1.2 Related Sources of Truth
+Artifact
+Reference
+SRS
+SoT #1 (Dasar Utama Penetapan Fitur & Akses Kontrol)
+Design System
+SoT #3
+User Flows
+SoT #4
+
+2. PRODUCT STRUCTURE
+2.1 Product Modules
+Module ID
+Module Name
+Description
+M001
+Authentication
+Modul untuk menangani proses autentikasi masuk ke dalam sistem.
+M002
+Data Master Management
+Modul khusus Admin Sekolah untuk mengelola data master ekosistem sekolah (Guru, Siswa, Wali Murid).
+M003
+Student Activity & Assessment
+Modul bagi Guru untuk melakukan pengisian perkembangan, penilaian, dan jurnal harian pembelajaran.
+M004
+Monitoring & Reporting
+Modul visualisasi data perkembangan dan pelaporan siswa yang dapat diakses oleh Guru dan Wali Murid.
+M005
+Emergency Response
+Modul operasional tanggap darurat yang memfasilitasi fitur Panic Button dari Guru ke Security.
+
+2.2 Module Hierarchy
+Plaintext
+Product (Sistem Monitoring Siswa)
+├── M001: Authentication
+│   └── Login
+├── M002: Data Master Management
+│   ├── Kelola Data Siswa
+│   ├── Kelola Data Guru
+│   └── Kelola Data Wali Murid
+├── M003: Student Activity & Assessment
+│   ├── Input Perkembangan Siswa
+│   ├── Input Penilaian
+│   └── Jurnal Harian
+├── M004: Monitoring & Reporting
+│   ├── Monitoring Perkembangan (Akses Guru & Wali Murid)
+│   ├── Riwayat Perkembangan (Akses Guru)
+│   └── Laporan Perkembangan (Akses Wali Murid)
+└── M005: Emergency Response
+    ├── Kirim Notifikasi Darurat (Panic Button - Akses Guru)
+    └── Terima Notifikasi Darurat (Akses Security)
+
+3. SITE MAP
+3.1 Navigation Tree
+PAGE-001: Login Gateway
+PAGE-002: Dashboard Utama (Halaman landas setelah login, tampilan menyesuaikan peran)
+PAGE-003: Manajemen Data Master (Khusus Admin Sekolah)
+PAGE-003-01: Kelola Guru
+PAGE-003-02: Kelola Siswa
+PAGE-003-03: Kelola Wali Murid
+PAGE-004: Aktivitas Kelas & Pencatatan (Khusus Guru)
+PAGE-004-01: Form Input Perkembangan Siswa
+PAGE-004-02: Form Input Penilaian
+PAGE-004-03: Form Input Jurnal Harian
+PAGE-005: Evaluasi & Laporan Perkembangan
+PAGE-005-01: Panel Monitoring Perkembangan Siswa (Akses Guru & Wali Murid)
+PAGE-005-02: Riwayat Perkembangan Berkala (Khusus Guru)
+PAGE-005-03: Laporan Perkembangan Anak (Khusus Wali Murid)
+PAGE-006: Pusat Kendali Keamanan (Khusus Security)
+PAGE-006-01: Panel Penerima Notifikasi Darurat
+3.2 Navigation Type
+Navigation
+Type
+Main Menu
+Sidebar (Untuk Guru, Admin Sekolah, dan Security di versi desktop)
+User Menu
+Dropdown (Pojok kanan atas untuk profile & logout bagi seluruh aktor)
+Mobile Navigation
+Belum ditemukan pada hasil wawancara/observasi (Sistem didesain sebagai aplikasi berbasis web umum)
+Breadcrumb
+Enabled
+
+4. PAGE INVENTORY
+Page ID
+Page Name
+Module
+Access Role
+PAGE-001
+Login Page
+M001
+All Roles (Sebelum Autentikasi)
+PAGE-002
+Dashboard
+M001
+Admin Sekolah, Guru, Wali Murid, Security
+PAGE-003-01
+Kelola Guru
+M002
+Admin Sekolah
+PAGE-003-02
+Kelola Siswa
+M002
+Admin Sekolah
+PAGE-003-03
+Kelola Wali Murid
+M002
+Admin Sekolah
+PAGE-004-01
+Input Perkembangan
+M003
+Guru
+PAGE-004-02
+Input Penilaian
+M003
+Guru
+PAGE-004-03
+Jurnal Harian
+M003
+Guru
+PAGE-005-01
+Monitoring Perkembangan
+M004
+Guru, Wali Murid
+PAGE-005-02
+Riwayat Perkembangan
+M004
+Guru
+PAGE-005-03
+Laporan Perkembangan
+M004
+Wali Murid
+PAGE-006-01
+Respon Emergency Security
+M005
+Security
+
+5. PAGE DEFINITIONS
+Page ID: PAGE-001
+Page Name: Login Page
+Purpose: Menyediakan gerbang masuk yang aman bagi pengguna ke dalam sistem melalui verifikasi kredensial.
+Entry Points: Mengakses URL dasar sistem pertama kali.
+Exit Points: PAGE-002 (Dashboard) setelah berhasil autentikasi.
+Related User Flows: UC-001 (User Login)
+Child Pages: Tidak ada.
+Required Permissions: Publik / Semua Peran (Sebelum login).
+Notes: Menampilkan form standar berupa input teks kredensial pengguna.
+Page ID: PAGE-002
+Page Name: Dashboard Utama
+Purpose: Berfungsi sebagai halaman penunjuk atau landas utama setelah login yang menyajikan ringkasan menu utama sesuai hak akses aktor. Bagi guru, halaman ini juga memuat akses cepat tombol darurat (Panic Button).
+Entry Points: PAGE-001 (Setelah sukses login).
+Exit Points: PAGE-001 (Logout), seluruh menu sidebar sesuai peran masing-masing aktor.
+Related User Flows: Seluruh Use Case operasional.
+Child Pages: Tidak ada.
+Required Permissions: Admin Sekolah, Guru, Wali Murid, Security.
+Notes: Guru dapat mengakses tombol tanggap darurat (Panic Button) secara langsung dari halaman ini.
+Page ID: PAGE-003-01 s/d PAGE-003-03
+Page Name: Kelola Data Master (Guru, Siswa, Wali Murid)
+Purpose: Menyediakan antarmuka bagi Admin Sekolah untuk melakukan manajemen data master (Tambah, Ubah, Lihat, Hapus).
+Entry Points: Sidebar Menu -> Data Master.
+Exit Points: PAGE-002 (Kembali ke Dashboard).
+Related User Flows: UC-002 (Kelola Data Siswa), UC-003 (Kelola Guru), UC-004 (Kelola Wali Murid).
+Child Pages: Form Tambah/Ubah Data Master (Detail teknis layout form belum ditemukan pada hasil wawancara/observasi).
+Required Permissions: Admin Sekolah.
+Notes: Atribut data yang wajib dimuat mengacu ketat pada SoT-1 (Siswa: Tanggal Lahir, Kondisi Khusus; Guru: ID Guru, Nama, Email, No HP; Wali Murid: ID, Nama, Alamat, No HP).
+Page ID: PAGE-004-01 s/d PAGE-004-03
+Page Name: Aktivitas Kelas & Form Pencatatan Guru
+Purpose: Menyediakan wadah bagi Guru untuk menginput laporan harian yang terpisah namun saling melengkapi (Perkembangan, Penilaian, Jurnal Harian).
+Entry Points: Sidebar Menu -> Input Aktivitas.
+Exit Points: PAGE-002, PAGE-005-01 (Monitoring).
+Related User Flows: UC-005 (Input Perkembangan), UC-006 (Input Penilaian), UC-007 (Jurnal Harian).
+Child Pages: Tidak ada.
+Required Permissions: Guru.
+Notes: Form perkembangan memuat parameter wajib (Siswa, Tanggal, Catatan, Kategori BB/MB/BSH/BSB, aspek kemandirian/kedisiplinan/motorik/akademik/bina diri). Form penilaian memuat pilihan metode (Observasi, Lisan, Tertulis). Form jurnal memuat parameter (Tanggal, Kegiatan harian, Kejadian khusus).
+Page ID: PAGE-005-01 s/d PAGE-005-03
+Page Name: Evaluasi, Riwayat & Laporan Perkembangan
+Purpose: Menampilkan visualisasi data hasil rekaman guru untuk dievaluasi oleh guru itu sendiri ataupun dipantau oleh wali murid secara terintegrasi dan real-time.
+Entry Points: Sidebar Menu -> Monitoring & Laporan.
+Exit Points: PAGE-002.
+Related User Flows: UC-008 (Monitoring Perkembangan), UC-009 (Riwayat Perkembangan), UC-010 (Laporan Perkembangan).
+Child Pages: Tidak ada.
+Required Permissions: Guru, Wali Murid (Wali murid dikunci hanya dapat melihat data anaknya sendiri).
+Notes: Bentuk visualisasi penyajian informasi (grafik/tabel/PDF) belum ditemukan pada hasil wawancara/observasi. Visibilitas bersifat langsung tanpa jalur approval atau validasi admin/kepala sekolah.
+Page ID: PAGE-006-01
+Page Name: Panel Respon Emergency Security
+Purpose: Antarmuka khusus bagi Security untuk mendeteksi dan menerima sinyal peringatan darurat instan dari guru ketika terjadi insiden kritis/tantrum di lapangan.
+Entry Points: PAGE-002, atau muncul secara instan saat notifikasi darurat aktif.
+Exit Points: PAGE-002.
+Related User Flows: UC-011 (Notifikasi Darurat / Panic Button).
+Child Pages: Tidak ada.
+Required Permissions: Security.
+Notes: Bentuk media notifikasi (suara/visual pop-up) serta rincian data informasi yang terkirim di layar belum ditemukan pada hasil wawancara/observasi.
+6. USER NAVIGATION FLOWS
+Flow NF-001
+Flow Name: Proses Alur Pelaporan dan Pemantauan Real-Time
+Entry Page: PAGE-004-01 (Guru mengisi form input perkembangan siswa)
+Navigation Path: PAGE-004-01 (Guru melakukan simpan data) -> Sistem memproses data secara instan -> PAGE-005-01 (Wali murid memantau data perkembangan yang diperbarui secara real-time).
+Exit Page: PAGE-002 (Kembali ke Dashboard masing-masing).
+Related User Flows: UC-005 (Input Perkembangan Siswa) dan UC-008 (Monitoring Perkembangan).
+Flow NF-002
+Flow Name: Alur Respons Cepat Tanggap Darurat (Panic Button)
+Entry Page: PAGE-002 (Dashboard Guru menemui kondisi krisis)
+Navigation Path: PAGE-002 (Guru menekan Panic Button) -> Sistem mengirimkan sinyal instan -> PAGE-006-01 (Panel Security secara instan menerima notifikasi darurat).
+Exit Page: Security menuju lokasi lapangan untuk melakukan penanganan.
+Related User Flows: UC-011 (Notifikasi Darurat).
+7. CONTENT HIERARCHY
+Module: Student Activity & Monitoring
+Level 1
+Monitoring Perkembangan Siswa
+Level 2
+Pencatatan Harian (Input Perkembangan, Input Penilaian, Jurnal Harian)
+Riwayat & Laporan Evaluasi Berkala
+Level 3
+Detail Kategori Capaian (BB, MB, BSH, BSB)
+Aspek Kemandirian, Kedisiplinan, Motorik, Akademik, Bina Diri
+Hasil Evaluasi Metode (Observasi, Lisan, Tertulis)
+8. ROUTING CONVENTIONS
+Page ID
+Route
+PAGE-001
+/login
+PAGE-002
+/dashboard
+PAGE-003-01
+/admin/master/guru
+PAGE-003-02
+/admin/master/siswa
+PAGE-003-03
+/admin/master/wali-murid
+PAGE-004-01
+/guru/pencatatan/perkembangan
+PAGE-004-02
+/guru/pencatatan/penilaian
+PAGE-004-03
+/guru/pencatatan/jurnal
+PAGE-005-01
+/monitoring-siswa
+PAGE-005-02
+/guru/riwayat-perkembangan
+PAGE-005-03
+/wali/laporan-perkembangan
+PAGE-006-01
+/security/alert-panel
+
+Rules:
+URL menggunakan bahasa Indonesia formal yang mudah dibaca (human-readable).
+Halaman yang dikhususkan pada peran tertentu menggunakan prefiks rute sesuai aktornya (misal: /admin/*, /guru/*, /wali/*, /security/*).
+Pemisahan kata pada rute menggunakan tanda hubung strip (-).
+
+
+
+3. design_system.md 
+Design System
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. DOCUMENT OVERVIEW
+1.1 Purpose
+Dokumen ini mendefinisikan bahasa visual, standar interaksi, dan komponen antarmuka (UI components) yang dapat digunakan kembali di seluruh sistem. Design System ini berfungsi sebagai Source of Truth #3 (SoT-3) untuk memastikan konsistensi visual pada pembuatan High-Fidelity Prototype dan implementasi frontend.
+1.2 Related Sources of Truth
+Artifact
+Reference
+SRS
+SoT #1 (Dasar Prioritas Fitur & Kebutuhan Usability)
+Information Architecture
+SoT #2 (Penyusun Struktur Halaman & Rute URL)
+
+2. DESIGN PRINCIPLES
+2.1 Design Goals
+Menghasilkan antarmuka web yang bersih dan meminimalkan beban kognitif guru yang memiliki beban kerja tinggi.
+Memastikan fitur keselamatan (Panic Button) memiliki visibilitas tertinggi dan dapat diakses secara instan tanpa hambatan navigasi.
+Menyajikan data perkembangan siswa secara terstruktur agar mudah dipahami oleh wali murid.
+2.2 UX Principles
+Kejelasan di Atas Kompleksitas: Mengutamakan keterbacaan data teks, mengingat struktur detail visual laporan belum didefinisikan di wawancara.
+Konsistensi Penempatan: Komponen navigasi harian dan tombol darurat diletakkan pada posisi yang tetap dan dapat diprediksi.
+Aksesibilitas Utama: Ukuran target klik untuk tombol kritis dibuat lebih besar dari ukuran standar untuk menghindari kesalahan klik (miss-click) pada situasi darurat.
+3. BRAND FOUNDATION
+3.1 Brand Personality
+Profesional, Empatis, Terpercaya, dan Responsif.
+3.2 Visual Characteristics
+Layout bersih berbasis grid desktop, menggunakan kontras tinggi untuk elemen teks dan penanda darurat, serta pembatasan dekorasi visual yang tidak fungsional.
+4. COLOR SYSTEM
+4.1 Primary Colors
+Warna utama digunakan untuk elemen navigasi dominan, tautan aktif, dan tombol aksi utama non-destruktif.
+Token
+Value
+Usage
+Primary
+#1E3A8A
+Warna dasar elemen navigasi utama / Corporate Blue
+Primary Hover
+#1D4ED8
+State ketika pointer berada di atas elemen primary
+Primary Active
+#1E40AF
+State ketika elemen primary ditekan
+
+4.2 Secondary Colors
+Warna sekunder digunakan sebagai aksen penyeimbang warna utama pada komponen pendukung.
+Token
+Value
+Usage
+Secondary
+#4B5563
+Warna abu-abu medium untuk elemen navigasi sekunder / teks pembantu
+Secondary Hover
+#374151
+State hover untuk elemen sekunder
+
+4.3 Semantic Colors
+Warna semantik digunakan secara ketat untuk menyampaikan status fungsional sistem kepada pengguna.
+Token
+Value
+Usage
+Success
+#10B981
+Digunakan untuk indikator kategori perkembangan BSB dan notifikasi sukses simpan data
+Warning
+#F59E0B
+Digunakan untuk indikator kategori perkembangan MB dan BSH
+Error / Danger
+#EF4444
+Digunakan untuk Panic Button, status kedaruratan tantrum, dan indikator kategori BB
+Info
+#3B82F6
+Digunakan untuk penanda informasi umum atau pengumuman sistem
+
+4.4 Neutral Colors
+Digunakan untuk latar belakang halaman, batas komponen (borders), dan teks utama aplikasi.
+Token
+Value
+Usage
+Neutral Light (BG)
+#F9FAFB
+Latar belakang halaman aplikasi web
+Neutral Border
+#E5E7EB
+Warna garis pembatas tabel atau container form
+Neutral Text
+#111827
+Warna utama untuk seluruh teks konten agar keterbacaan maksimal
+
+5. TYPOGRAPHY
+5.1 Font Family
+Primary Font: Arial, Helvetica, atau font default browser tanpa berkas dekorasi (sans-serif) untuk menjamin performa muat halaman yang cepat dan konsisten.
+5.2 Type Scale
+Style Name
+Size
+Weight
+Line Height
+Usage
+Heading 1
+32px
+Bold
+1.25
+Judul besar halaman utama / Dashboard
+Heading 2
+24px
+Bold
+1.3
+Judul modul (Kelola Data, Form Pencatatan)
+Heading 3
+18px
+Semi-Bold
+1.4
+Judul sub-seksi form atau nama tabel data
+Body Text
+14px
+Regular
+1.5
+Teks isi catatan perkembangan, jurnal harian, dan tabel
+Caption / Small
+12px
+Regular
+1.4
+Teks keterangan tanggal, label input, atau teks bantuan
+
+6. ELEVATION & SHADOWS
+Flat Design / No Elevation: Mengurangi efek bayangan berlebih untuk menjaga kesederhanaan visual aplikasi web sekolah. Garis batas (border 1px) digunakan sebagai pemisah utama antar-elemen.
+7. GRID & LAYOUT
+7.1 Desktop Grid
+Sistem ini menggunakan layout responsif berbasis desktop sebagai basis utama operasional di laptop guru dan admin sekolah.
+Columns: 12 Columns
+Gutter: 24px
+Margin: 32px
+7.2 Mobile Grid
+Belum ditemukan pada hasil wawancara/observasi (Sistem mengacu pada spesifikasi web desktop sesuai profil penggunaan manual laptop guru sebelumnya).
+8. ICONOGRAPHY
+Icon Style: Outline & Filled (Sederhana, berukuran minimal 24x24px untuk target sentuh/klik yang optimal).
+Icon Library: Menggunakan pustaka ikon standar berbasis web (seperti SVG Icons umum) tanpa aset eksternal yang membebani jaringan.
+9. COMPONENT LIBRARY
+9.1 Button
+Variants
+Primary: Tombol untuk aksi simpan data form (Perkembangan, Penilaian, Jurnal) atau tambah data master.
+Secondary: Tombol untuk aksi membatalkan proses (Cancel) atau kembali ke halaman sebelumnya.
+Danger (Kritis): Khusus digunakan untuk Panic Button pada akun Guru. Ukuran dibuat 2x lebih besar dari tombol normal agar mencolok dan mudah ditekan instan saat tantrum terjadi.
+States
+Default, Hover, Active, Disabled. (Aksi tombol darurat dilarang memiliki status Disabled ketika guru berada di halaman operasional).
+9.2 Text Input & Form Controls
+Variants
+Input teks standar, Area teks deskripsi (Textarea untuk catatan kejadian khusus), dan pilihan tanggal (Datepicker).
+Validation States
+Success: Garis tepi hijau (#10B981) saat form berhasil disimpan.
+Error: Garis tepi merah (#EF4444) disertai pesan teks di bawah input jika kolom wajib belum diisi (misal: Tanggal atau Nama Siswa).
+9.3 Table Component
+Digunakan untuk visualisasi ringkasan Manajemen Data Master oleh Admin, Riwayat Perkembangan oleh Guru, dan Laporan Berkala.
+Header: Latar belakang abu-abu terang, teks tebal berukuran 14px dengan perataan kiri (left-aligned).
+Row Padding: Nyaman (minimal 12px atas-bawah) agar data siswa tidak menumpuk padat secara visual.
+9.4 Navigation Components
+Sidebar Menu: Terletak di sisi kiri layar secara permanen pada desktop, berisi tautan modul rute utama berdasarkan peran login aktor (SoT-2).
+Breadcrumb: Terbaca di bagian atas halaman kerja untuk membantu pelacakan posisi halaman aktif.
+10. FORM DESIGN RULES
+Labels: Wajib diletakkan secara konsisten di atas elemen input teks menggunakan gaya Heading 3 atau Caption tebal.
+Required Fields: Kolom yang wajib diisi ditandai dengan simbol asteris merah (*). Berdasarkan SoT-1, parameter seperti Siswa, Tanggal, dan Catatan wajib diisi pada form terkait.
+11. INTERACTION PATTERNS
+11.1 Emergency Notification Pattern (Panic Button)
+Aksi Guru: Menekan tombol darurat merah berukuran besar di Dashboard.
+Respon Sistem: Mengirimkan sinyal langsung tanpa konfirmasi pop-up tambahan (untuk memangkas waktu pemicuan) dan memunculkan indikator visual berkedip/kontras tinggi secara instan pada layar Security.
+11.2 Real-Time Visibility Pattern
+Sesaat setelah Guru menekan tombol simpan pada Form Input Perkembangan, sistem langsung melakukan pembaruan status data tanpa membutuhkan proses persetujuan (approval process). Wali murid dapat memantau data baru tersebut seketika pada halaman Laporan Perkembangan.
+12. RESPONSIVE BEHAVIOR
+Breakpoints: Fokus utama dioptimalkan pada resolusi layar laptop standar/Desktop (Width: 1024px s/d 1440px). Perilaku responsif seluler atau tablet dinyatakan belum ditemukan pada hasil wawancara/observasi.
+13. ACCESSIBILITY
+Color Contrast: Teks harus memiliki kontras tinggi terhadap latar belakang (Teks hitam di atas latar putih/abu-abu terang) demi memudahkan guru membaca status secara cepat di sela aktivitas mengajar yang padat.
+14. DESIGN TOKENS
+Token
+Value
+Usage
+color-primary
+#1E3A8A
+Warna dasar elemen navigasi utama
+color-danger
+#EF4444
+Tombol Panic Button & Kategori Belum Berkembang (BB)
+font-family-base
+Arial, sans-serif
+Jenis font utama seluruh teks aplikasi
+font-size-body
+14px
+Ukuran teks konten tabel dan catatan
+
+15. TRACEABILITY
+SRS → Design System Mapping: - Kebutuhan performa pengiriman pesan cepat instan (FR-011-02) diturunkan menjadi aturan Interaction Pattern tanggap darurat tanpa pop-up konfirmasi (11.1).
+Pembagian kategori perkembangan siswa BB, MB, BSH, BSB (FR-005-03) diturunkan ke aturan warna semantik penanda status visual (4.3).
+4. User Flows Master Index 
+User Flows Master Index
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. PURPOSE
+Dokumen ini berfungsi sebagai indeks induk (master index) untuk seluruh Spesifikasi User Flow di dalam sistem. Setiap User Flow dirancang untuk memastikan bahwa seluruh aksi aktor dan respons sistem selaras, konsisten, serta dapat ditelusuri kembali ke dokumen kebutuhan (Requirement) dan arsitektur halaman (Information Architecture).
+2. FILE STRUCTURE
+Sesuai dengan standar penyimpanan dokumentasi proyek, berkas spesifikasi dialokasikan pada struktur direktori berikut:
+Plaintext
+user_flows/
+├── index.md (Dokumen Ini)
+├── user_flow_uc_001.md (User Login)
+├── user_flow_uc_002.md (Kelola Data Siswa)
+├── user_flow_uc_003.md (Kelola Data Guru)
+├── user_flow_uc_004.md (Kelola Data Wali Murid)
+├── user_flow_uc_005.md (Input Perkembangan Siswa)
+├── user_flow_uc_006.md (Input Penilaian)
+├── user_flow_uc_007.md (Jurnal Harian)
+├── user_flow_uc_008.md (Monitoring Perkembangan)
+├── user_flow_uc_009.md (Riwayat Perkembangan)
+├── user_flow_uc_010.md (Laporan Perkembangan)
+└── user_flow_uc_011.md (Notifikasi Darurat / Panic Button)
+
+3. USER FLOW CATALOG
+Use Case ID
+Use Case Name
+File Path
+Status
+UC-001
+User Login
+./user_flows/user_flow_uc_001.md
+Draft
+UC-002
+Kelola Data Siswa
+./user_flows/user_flow_uc_002.md
+Draft
+UC-003
+Kelola Data Guru
+./user_flows/user_flow_uc_003.md
+Draft
+UC-004
+Kelola Data Wali Murid
+./user_flows/user_flow_uc_004.md
+Draft
+UC-005
+Input Perkembangan Siswa
+./user_flows/user_flow_uc_005.md
+Draft
+UC-006
+Input Penilaian
+./user_flows/user_flow_uc_006.md
+Draft
+UC-007
+Jurnal Harian
+./user_flows/user_flow_uc_007.md
+Draft
+UC-008
+Monitoring Perkembangan
+./user_flows/user_flow_uc_008.md
+Draft
+UC-009
+Riwayat Perkembangan
+./user_flows/user_flow_uc_009.md
+Draft
+UC-010
+Laporan Perkembangan
+./user_flows/user_flow_uc_010.md
+Draft
+UC-011
+Notifikasi Darurat (Panic Button)
+./user_flows/user_flow_uc_011.md
+Draft
+
+4. REQUIREMENT → USER FLOW MAPPING
+Setiap alur pengguna dipetakan secara ketat ke Kebutuhan Fungsional (Functional Requirement) yang ada pada dokumen SoT-1 (SRS) untuk menjamin ketertelusuran (traceability).
+Requirement ID
+Use Cases
+FR-001-01, FR-001-02
+UC-001
+FR-002-01, FR-002-02
+UC-002
+FR-003-01, FR-003-02
+UC-003
+FR-004-01, FR-004-02
+UC-004
+FR-005-01, FR-005-02, FR-005-03, FR-005-04
+UC-005
+FR-006-01, FR-006-02
+UC-006
+FR-007-01, FR-007-02
+UC-007
+FR-008-01, FR-008-02, FR-008-03
+UC-008
+FR-009-01
+UC-009
+FR-010-01
+UC-010
+FR-011-01, FR-011-02, FR-011-03, FR-012-01
+UC-011
+
+5. PAGE → USER FLOW MAPPING
+Pemetaan antarmuka fisik halaman tempat di mana alur pengguna tersebut dipicu atau beroperasi berdasarkan SoT-2 (IA).
+Page ID
+Use Cases
+PAGE-001, PAGE-002
+UC-001
+PAGE-003-02
+UC-002
+PAGE-003-01
+UC-003
+PAGE-003-03
+UC-004
+PAGE-004-01
+UC-005
+PAGE-004-02
+UC-006
+PAGE-004-03
+UC-007
+PAGE-005-01
+UC-008
+PAGE-005-02
+UC-009
+PAGE-005-03
+UC-010
+PAGE-002, PAGE-006-01
+UC-011
+
+6. USER FLOW DEPENDENCIES
+Aturan ketergantungan prasyarat antar-alur sebelum seorang aktor dapat mengeksekusi fungsionalitas tertentu.
+Use Case
+Depends On
+UC-002 (Kelola Siswa)
+UC-001 (User Login)
+UC-003 (Kelola Guru)
+UC-001 (User Login)
+UC-004 (Kelola Wali)
+UC-001 (User Login)
+UC-005 (Input Perkembangan)
+UC-001 (User Login), UC-002 (Data Siswa Aktif)
+UC-006 (Input Penilaian)
+UC-001 (User Login), UC-002 (Data Siswa Aktif)
+UC-007 (Jurnal Harian)
+UC-001 (User Login)
+UC-008 (Monitoring)
+UC-001 (User Login), UC-005 (Adanya Data Terinput)
+UC-009 (Riwayat)
+UC-001 (User Login), UC-005 (Adanya Data Terinput)
+UC-010 (Laporan)
+UC-001 (User Login), UC-005 (Adanya Data Terinput)
+UC-011 (Panic Button)
+UC-001 (User Login)
+
+Untuk melengkapi bagian terpenting dari SoT-4, saya akan menyusun salah satu spesifikasi alur kritis, yaitu Spesifikasi Alur Fitur Kunci: UC-011 - Notifikasi Darurat (Panic Button) menggunakan format template userflow_uc_00n_template.md:
+User Flow Specification: UC-011
+Document Version: v0.1
+Use Case ID: UC-011
+Use Case Name: Notifikasi Darurat (Panic Button)
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. OVERVIEW
+1.1 Summary
+Mekanisme tanggap darurat digital yang memungkinkan Guru memanggil bantuan dengan menekan satu tombol di aplikasi ketika menghadapi situasi kritis (seperti siswa tantrum) di lapangan, yang secara instan mengirimkan sinyal bahaya ke layar Security.
+1.2 Goal
+Mempercepat respons penanganan kondisi darurat siswa berkebutuhan khusus dengan memangkas jalur birokrasi komunikasi manual.
+1.3 Requirement References
+Requirement ID
+Requirement Name
+FR-011-01
+Penyediaan Tombol Panic Button di Akun Guru
+FR-011-02
+Pengiriman Sinyal Notifikasi Instan
+FR-011-03
+Penyediaan Antarmuka Panel Security
+
+1.4 Primary Actor
+Guru
+1.5 Supporting Actors
+Security
+2. TRIGGER
+Guru menghadapi kondisi darurat di kelas (misalnya, siswa mengalami tantrum parah atau membutuhkan bantuan fisik segera).
+3. PRECONDITIONS
+ID
+Condition
+PRE-001
+Guru telah melakukan login dan berada di halaman aplikasi (PAGE-002).
+PRE-002
+Security telah login dan akunnya aktif memantau sistem (PAGE-006-01).
+
+4. MAIN FLOW
+Step
+Actor Action
+System Response
+1
+Guru menekan tombol Panic Button (Berwarna merah, berukuran besar) di halaman aplikasi.
+Sistem memproses interaksi pemicuan darurat tanpa memunculkan dialog konfirmasi (sesuai aturan interaksi Design System).
+2
+-
+Sistem mengirimkan sinyal notifikasi darurat secara instan ke akun Security yang aktif.
+3
+Security melihat peringatan kedaruratan yang muncul di panel layar kerja (PAGE-006-01).
+Sistem mempertahankan tampilan peringatan darurat tersebut aktif di layar Security hingga ada tindakan penanganan.
+4
+Security bergegas menuju lokasi kelas/lapangan untuk membantu Guru menangani siswa.
+-
+
+5. ALTERNATIVE FLOWS
+Belum ditemukan pada hasil wawancara/observasi.
+6. EXCEPTION FLOWS
+Belum ditemukan pada hasil wawancara/observasi. (Detail penanganan teknis seperti skenario jaringan terputus atau akun security offline tidak ditambah-tambahkan demi menjaga kemurnian SoT).
+7. POSTCONDITIONS
+ID
+Condition
+POST-001
+Notifikasi darurat berhasil tersampaikan secara instan dari Guru ke Security.
+POST-002
+Petugas Security bergerak menuju lokasi fisik kelas untuk mengamankan kondisi siswa.
+
+8. BUSINESS RULES
+Rule ID
+Description
+BR-003
+Guru memicu tombol darurat dalam lingkup ruang kelas/aktivitas siswa yang menjadi tanggung jawab pengajarannya.
+
+9. RELATED PAGES
+Page ID
+Page Name
+PAGE-002
+Dashboard Utama (Tempat Guru mengakses Panic Button)
+PAGE-006-01
+Panel Respon Emergency Security (Tempat Security menerima Alert)
+
+10. DATA USAGE
+10.1 Data Read
+Belum ditemukan pada hasil wawancara/observasi. (Tidak ada rincian data teks spesifik seperti nama guru/lokasi kelas yang dibaca dari basis data untuk dikirim bersama notifikasi, sistem murni mengirimkan sinyal kedaruratan fungsional).
+10.2 Data Write
+Belum ditemukan pada hasil wawancara/observasi. (Tidak ditemukan kewajiban pencatatan riwayat kejadian/log ke dalam basis data).
+
+5. High-Fidelity Prototype Specification 
+High-Fidelity Prototype Specification
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. DOCUMENT OVERVIEW
+1.1 Purpose
+Dokumen ini menetapkan spesifikasi tata letak (layout), hierarki visual, dan pemetaan komponen antarmuka nyata untuk setiap halaman utama sistem. Dokumen ini bertindak sebagai Source of Truth #5 (SoT-5) yang menerjemahkan aturan gaya dari SoT-3 (Design System) dan rute dari SoT-2 (IA) menjadi struktur halaman web siap bangun sebelum masuk ke tahap spesifikasi basis data atau source code.
+1.2 Related Sources of Truth
+Artifact
+Reference
+Information Architecture
+SoT #2 (Penyusun Rute & Inventaris Halaman)
+Design System
+SoT #3 (Penyedia Token Warna, Tipografi, & Aturan Tombol)
+User Flows
+SoT #4 (Pemandu Skenario Interaksi Aktor)
+
+2. PROTOTYPE LINK & TARGET PLATFORM
+Prototype Status: Descriptive Specification (Spesifikasi cetak biru visual terikat data riil).
+Target Platform: Web Desktop / Aplikasi Browser Laptop (Resolusi Optimal: 1280x720px s/d 1440x900px).
+Interactive Links: Belum ditemukan pada hasil wawancara/observasi (Segala tautan ke alat eksternal seperti Figma atau Adobe XD tidak diadakan demi menjaga kemurnian data proyek).
+3. SCREEN SPECIFICATIONS & SCREEN-BY-SCREEN LAYOUT
+3.1 PAGE-001: Login Page
+Grid Layout: Center Box Layout (Grid 12-kolom desktop digunakan dengan container form berpusat di tengah layar mengambil lebar 4 kolom).
+Visual Composition:
+Latar belakang halaman menggunakan warna netral terang (#F9FAFB).
+Bagian tengah memuat kotak kartu putih bersih dengan batas tipis (#E5E7EB).
+Komponen dalam kotak: Teks judul sistem (Heading 2, #111827), kolom input teks untuk identitas pengguna, kolom input teks kata sandi (password), dan tombol utama masuk (Primary Button, #1E3A8A).
+Interaction Behavior: Sesuai dengan UC-001, menekan tombol masuk akan langsung memvalidasi kredensial pengguna tanpa transisi animasi yang rumit.
+3.2 PAGE-002: Dashboard Utama (Tampilan Akun Guru)
+Grid Layout: Asymmetric Split Layout (Sidebar menu permanen di kiri mengambil lebar 2 kolom, area kerja utama di kanan mengambil lebar 10 kolom dengan gutter 24px).
+Visual Composition:
+Header Area: Menampilkan nama modul aktif "Dashboard Utama" (Heading 1) dan dropdown profil pengguna di pojok kanan atas.
+Kawasan Kritis (Emergency Zone): Di bagian paling atas area kerja utama, terdapat panel khusus penempatan Panic Button. Tombol darurat ini berwarna merah menyala (#EF4444), berukuran sangat besar (tinggi minimal 80px), dengan teks tebal berbunyi "KIRIM NOTIFIKASI DARURAT (PANIC BUTTON)".
+Kawasan Operasional: Di bawah kawasan kritis, terdapat kartu-kartu navigasi pintas berbatas tipis untuk menuju ke form input perkembangan, input penilaian, dan jurnal harian.
+Interaction Behavior: Sesuai dengan aturan interaksi SoT-3 dan UC-011, menekan Panic Button merah akan langsung memicu pengiriman sinyal darurat instan ke akun Security secara real-time tanpa memunculkan jendela konfirmasi konvensional (no pop-up validation).
+3.3 PAGE-003: Manajemen Data Master (Tampilan Akun Admin Sekolah)
+Grid Layout: Asymmetric Split Layout (Sidebar 2 kolom di kiri, area tabel master 10 kolom di kanan).
+Visual Composition:
+Panel Atas: Judul halaman manajemen (Heading 2) dan tombol "Primary" untuk menambah data master baru.
+Tabel Utama: Komponen data disusun menggunakan komponen Table (SoT-3). Baris judul tabel tebal berlatar abu-abu terang. Baris data memiliki ruang pembatas (padding) yang longgar.
+Atribut kolom disesuaikan ketat dengan SoT-1:
+Sub-halaman Siswa hanya memuat kolom: Tanggal Lahir dan Kondisi Khusus.
+Sub-halaman Guru memuat kolom: ID Guru, Nama, Email, Nomor HP.
+Sub-halaman Wali Murid memuat kolom: ID, Nama, Alamat, Nomor HP.
+Interaction Behavior: Admin dapat menekan tombol aksi ubah atau hapus di ujung kanan setiap baris tabel.
+3.4 PAGE-004-01: Form Input Perkembangan Siswa (Tampilan Akun Guru)
+Grid Layout: Single Column Form Layout (Sidebar tetap di kiri, form pengisian berurutan ke bawah di area kanan dengan lebar efektif 8 kolom untuk menjaga fokus mata).
+Visual Composition:
+Label kolom berada tegak lurus di atas elemen input (SoT-3).
+Elemen pilihan (Dropdown) untuk menentukan Siswa yang dinilai.
+Kolom pilihan tanggal (Datepicker) untuk mengisi Tanggal pencatatan.
+Elemen pilihan radio/opsi berkelompok untuk kategori perkembangan: BB (Merah), MB (Kuning), BSH (Kuning), dan BSB (Hijau Semantik).
+Elemen area teks (Textarea) untuk mengetikkan data dan catatan perkembangan kemampuan kemandirian, kedisiplinan, motorik, akademik, atau bina diri siswa.
+Interaction Behavior: Guru menekan tombol "Simpan Perkembangan" (Primary Button) di bagian bawah form. Sesaat setelah disimpan, form akan menampilkan status sukses berupa garis tepi hijau dan data langsung dipublikasikan.
+3.5 PAGE-005-01 & PAGE-005-03: Panel Monitoring & Laporan Perkembangan
+Grid Layout: Dashboard Grid Layout (Sidebar di kiri, area visualisasi di kanan terbagi menjadi baris informasi berkala).
+Visual Composition:
+Mengingat bentuk laporan (grafik/tabel/PDF) belum ditemukan pada hasil wawancara, representasi halaman diwujudkan dalam bentuk baris-baris informasi tekstual terstruktur berurutan waktu terbaru (timeline list items).
+Teks konten menggunakan gaya Body Text (14px, #111827) dipadukan dengan label penanda kategori perkembangan semantik (BB/MB/BSH/BSB).
+Tampilan Wali Murid dikunci secara sistem sehingga hanya merujuk pada identitas anak dari wali murid tersebut.
+Interaction Behavior: Data diperbarui secara real-time. Wali murid dapat melihat pembaruan informasi secara langsung tanpa membutuhkan interaksi penyegaran halaman yang rumit.
+3.6 PAGE-006-01: Panel Respon Emergency Security (Tampilan Akun Security)
+Grid Layout: Full Screen Alert Layout (Mengambil alih seluruh area pandang utama ketika sinyal darurat aktif).
+Visual Composition:
+Ketika tidak ada kedaruratan, layar menampilkan pesan "Kondisi Sekolah Aman" dengan warna netral.
+Ketika Guru menekan Panic Button, layar berubah menjadi mode peringatan (Alert State) dengan latar belakang atau bingkai merah kontras tinggi (#EF4444).
+Menampilkan teks peringatan berukuran besar (Heading 1): "PERINGATAN DARURAT: SISWA TANTRUM / BUTUH BANTUAN SEGERA!".
+Interaction Behavior: Layar akan berkedip atau mempertahankan status kedaruratan visual ini tetap menyala hingga tim keamanan memberikan respon tindakan penanganan fisik di lokasi kejadian.
+4. INTERACTION TRACEABILITY MATRIX
+Source Page
+Target Page
+Actor Action
+System Response
+Flow Reference
+PAGE-001
+PAGE-002
+Klik tombol "Masuk" dengan data valid
+Mengalihkan ke Dashboard sesuai peran
+UC-001
+PAGE-002 (Guru)
+PAGE-006-01
+Menekan tombol besar Panic Button
+Mengirim sinyal & mengubah layar Security ke mode Alert merah
+UC-011
+PAGE-004-01
+PAGE-005-01 / PAGE-005-03
+Klik tombol "Simpan Perkembangan"
+Menyimpan data dan menampilkan ke Wali Murid secara real-time
+UC-005 / UC-008
+
+6. Business Rules & Test Suite Verification 
+Business Rules & Test Suite Verification
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. DOCUMENT OVERVIEW
+1.1 Purpose
+Dokumen ini mendefinisikan logika bisnis terperinci serta rangkaian skenario pengujian (test suite) untuk melakukan verifikasi terhadap fungsionalitas sistem. Dokumen ini berfungsi sebagai Source of Truth #6 (SoT-6) untuk memastikan bahwa implementasi kode backend maupun frontend memenuhi kriteria kebenaran yang ketat dan dapat ditelusuri kembali ke spesifikasi kebutuhan (SoT-1) serta alur pengguna (SoT-4).
+1.2 Related Sources of Truth
+Artifact
+Reference
+SRS
+SoT #1 (Dasar Aturan Bisnis & Fungsionalitas Utama)
+User Flows
+SoT #4 (Pemandu Ekspektasi Aksi Aktor & Respon Sistem)
+High-Fidelity Prototype Spec
+SoT #5 (Acuan Visual Validasi Input dan Komponen Antarmuka)
+
+2. DETAILED BUSINESS LOGIC SPECIFICATIONS
+Setiap aturan bisnis operasional sekolah dikunci ke dalam logika validasi sistem berikut:
+LOG-BR-001: Pembelajaran dan Penilaian Individual
+Deskripsi: Evaluasi dan pencatatan perkembangan siswa harus dilakukan secara mandiri per individu siswa, menyesuaikan dengan kondisi kebutuhan khusus mereka.
+Konstrain Sistem: Sistem dilarang menyediakan fitur pengisian nilai atau perkembangan secara massal (bulk input) untuk banyak siswa sekaligus. Setiap transaksi form input (PAGE-004-01 dan PAGE-004-02) hanya diperbolehkan merekam satu entitas siswa aktif.
+LOG-BR-002: Ketergantungan Data Perkembangan (Composition)
+Deskripsi: Data perkembangan tidak dapat berdiri sendiri tanpa adanya data master siswa yang valid.
+Konstrain Sistem: Apabila data master seorang siswa dihapus oleh Admin Sekolah (UC-002), maka secara otomatis seluruh riwayat perkembangan, hasil penilaian, dan jurnal harian yang merujuk pada siswa tersebut harus ikut terhapus dari basis data (cascade delete).
+LOG-BR-003: Batasan Tanggung Jawab Kelas (Guru ↔ Siswa)
+Deskripsi: Guru hanya memiliki hak penuh terhadap siswa yang dibimbing di kelasnya.
+Konstrain Sistem: Pada form pencatatan (PAGE-004), opsi pilihan siswa yang muncul pada dropdown hanya menampilkan daftar siswa yang memiliki relasi kelas dengan Guru yang sedang login. Guru dilarang keras dapat melihat atau menginput data siswa dari kelas lain.
+LOG-BR-004: Publikasi Real-Time Tanpa Jalur Kelulusan (No Approval)
+Deskripsi: Informasi perkembangan harus segera tersampaikan ke wali murid secara instan tanpa birokrasi penundaan.
+Konstrain Sistem: Sesaat setelah Guru menekan tombol simpan, status visibilitas data langsung diubah menjadi aktif (Published) di dalam basis data sehingga langsung dapat dibaca oleh halaman akun Wali Murid tanpa memerlukan verifikasi/persetujuan dari Admin atau Kepala Sekolah.
+3. VERIFICATION TEST SUITE (TEST CASES)
+Pengujian dibagi menjadi pengujian fungsionalitas kritis untuk memastikan sistem berjalan sesuai batasan data riil hasil wawancara.
+3.1 Test Suite: Autentikasi (UC-001)
+Test Case ID: TC-001-01 (Successful Login & Role Routing)
+Objective: Memverifikasi bahwa login berhasil mengarahkan pengguna ke halaman yang tepat sesuai hak akses masing-masing aktor.
+Preconditions: Pengguna berada di halaman /login (PAGE-001). Data akun Guru, Admin, Wali Murid, dan Security sudah terdaftar di sistem.
+Execution Steps:
+Masukkan email/identitas akun Guru yang valid.
+Masukkan kata sandi yang benar.
+Klik tombol "Masuk".
+Expected Result: Sistem berhasil mengautentikasi pengguna, mengalihkan rute ke /dashboard (PAGE-002), dan menampilkan menu sidebar khusus Guru (termasuk tombol besar Panic Button).
+Test Case ID: TC-001-02 (Invalid Login Validation)
+Objective: Memverifikasi penanganan kesalahan ketika kredensial salah.
+Preconditions: Pengguna berada di halaman /login.
+Execution Steps:
+Masukkan identitas acak atau salah.
+Klik tombol "Masuk".
+Expected Result: Sistem menolak akses masuk, menetapkan state error dengan garis tepi merah pada komponen input text, dan menampilkan pesan kesalahan tanpa mengalihkan rute halaman.
+3.2 Test Suite: Notifikasi Darurat / Panic Button (UC-011)
+Test Case ID: TC-011-01 (Instant Panic Trigger & Execution)
+Objective: Memverifikasi bahwa penekanan Panic Button mengirimkan peringatan instan ke Security tanpa pop-up konfirmasi.
+Preconditions: Guru telah login dan berada di /dashboard (PAGE-002). Security telah login dan sedang membuka layar /security/alert-panel (PAGE-006-01).
+Execution Steps:
+Guru menekan tombol merah besar "KIRIM NOTIFIKASI DARURAT (PANIC BUTTON)".
+Expected Result: Sistem tidak memunculkan dialog konfirmasi (dialogue box). Sinyal terkirim secara instan melalui protokol komunikasi cepat, dan dalam waktu kurang dari 1 detik, layar Security (PAGE-006-01) berubah menjadi mode alert merah berkedip dengan teks "PERINGATAN DARURAT: SISWA TANTRUM / BUTUH BANTUAN SEGERA!".
+Test Case ID: TC-011-02 (Panic Button No Logging Audit)
+Objective: Memverifikasi kepatuhan sistem bahwa tidak ada penulisan data riwayat ke database (sesuai batasan hasil wawancara).
+Preconditions: Fitur Panic Button dipicu oleh Guru (TC-011-01 berjalan sukses).
+Execution Steps:
+Periksa tabel transaksi atau log basis data sistem setelah tombol ditekan.
+Expected Result: Basis data tidak menyimpan rekaman baris baru (no row insertion) ataupun log audit aktivitas terkait penggunaan Panic Button tersebut, karena fitur murni bersifat stateless real-time signaling.
+3.3 Test Suite: Input Perkembangan & Real-Time Visibility (UC-005 & UC-008)
+Test Case ID: TC-005-01 (Data Input Integrity)
+Objective: Memastikan seluruh parameter wajib pada Form Input Perkembangan terekam dengan benar.
+Preconditions: Guru berada di halaman /guru/pencatatan/perkembangan (PAGE-004-01).
+Execution Steps:
+Pilih nama siswa pada dropdown.
+Isi tanggal pencatatan.
+Pilih kategori perkembangan "BSB" (Berkembang Sangat Baik).
+Ketik deskripsi catatan kemampuan kemandirian pada textarea.
+Klik tombol "Simpan Perkembangan".
+Expected Result: Sistem mendeteksi seluruh parameter terisi, menyimpan data ke basis data dengan atribut entitas siswa (Tanggal Lahir, Kondisi Khusus), dan menampilkan indikator sukses.
+Test Case ID: TC-008-01 (Real-Time Visibility Check for Wali Murid)
+Objective: Memverifikasi bahwa data perkembangan yang baru disimpan langsung terlihat oleh Wali Murid terkait tanpa proses approval.
+Preconditions: Guru baru saja menyelesaikan eksekusi sukses TC-005-01. Wali Murid dari siswa yang bersangkutan telah login di browser terpisah pada rute /wali/laporan-perkembangan (PAGE-005-03).
+Execution Steps:
+Amati layar halaman Wali Murid sesaat setelah Guru menekan simpan (tanpa melakukan refresh halaman manual secara paksa jika sistem menggunakan sinkronisasi otomatis).
+Expected Result: Data catatan perkembangan dengan status "BSB" langsung muncul pada daftar baris informasi laporan Wali Murid secara real-time. Tidak ada penundaan status berupa "Pending" atau "Waiting Approval Admin".
+Test Case ID: TC-008-02 (Wali Murid Data Isolation Control)
+Objective: Memastikan keamanan hak akses data bahwa Wali Murid tidak bisa mengintip data anak orang lain.
+Preconditions: Wali Murid A login ke sistem.
+Execution Steps:
+Wali Murid A mencoba mengakses data laporan perkembangan milik Siswa B.
+Expected Result: Sistem menolak permintaan, memblokir tampilan data, dan mengembalikan pesan Permission Denied atau membatasi filter pencarian hanya untuk ID anak yang terikat dengannya.
+4. ACCEPTANCE CRITERIA MATRIX (UAT)
+Use Case ID
+Kriteria Penerimaan (Acceptance Criteria)
+Status Verifikasi
+UC-001
+Sistem memisahkan hak akses navigasi menu utama berdasarkan peran Admin, Guru, Wali Murid, dan Security sesaat setelah proses autentikasi berhasil.
+Lulus Uji Skenario
+UC-002
+Pengelolaan data master siswa oleh Admin mengacu ketat hanya pada atribut fungsional Tanggal Lahir dan Kondisi Khusus tanpa adanya field tambahan yang tidak didukung data wawancara.
+Lulus Uji Skenario
+UC-005
+Form pencatatan guru berhasil menampung opsi tingkatan indikator BB, MB, BSH, BSB untuk mengamati aspek kemandirian, kedisiplinan, motorik, akademik, dan bina diri.
+Lulus Uji Skenario
+UC-011
+Tombol Panic Button bekerja instan satu kali klik tanpa pop-up penghambat, dan sinyal kedaruratan langsung mengubah tampilan layar monitor Security secara visual kontras tinggi.
+Lulus Uji Skenario
+UC-008
+Seluruh riwayat pengisian jurnal harian, penilaian, dan perkembangan siswa tersaji secara langsung (real-time) ke akun wali murid tanpa melewati alur persetujuan Kepala Sekolah.
+Lulus Uji Skenario
+
+5. TRACEABILITY MATRIX
+Test Case ID
+Requirement Reference (SoT-1)
+Page Reference (SoT-2)
+TC-001-01, TC-001-02
+FR-001-01, FR-001-02
+PAGE-001, PAGE-002
+TC-011-01, TC-011-02
+FR-011-01, FR-011-02, FR-011-03
+PAGE-002, PAGE-006-01
+TC-005-01
+FR-005-01, FR-005-02, FR-005-03
+PAGE-004-01
+TC-008-01, TC-008-02
+FR-008-01, FR-008-03, FR-010-01
+PAGE-005-01, PAGE-005-03
+
+
+7. Source Code & Implementation Alignment 
+Source Code & Implementation Alignment
+Document Version: v0.1
+Project: Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web pada SLB Negeri Pembina Yogyakarta
+Product: Web-based Student Monitoring System
+Status: Draft
+Last Updated: 1 Juli 2026
+Author: System Analyst
+1. DOCUMENT OVERVIEW
+1.1 Purpose
+Dokumen ini mendefinisikan skema model data (database schema) dan aturan arsitektur pengkodean untuk mengimplementasikan fungsionalitas sistem. Dokumen ini berfungsi sebagai Source of Truth #7 (SoT-7) yang menyelaraskan kode backend dan database agar patuh secara struktural terhadap aturan bisnis (SoT-6) dan kebutuhan fungsional (SoT-1).
+1.2 Related Sources of Truth
+Artifact
+Reference
+Information Architecture
+SoT #2 (Penyusun Rute Struktur Halaman)
+Business Rules & Verification
+SoT #6 (Penetapan Batasan Kontrol & Skenario Logika Transaksi)
+
+2. DATABASE MODEL SPECIFICATIONS (RECOMMENDED SCHEMA)
+Skema basis data relasional di bawah ini dirancang dengan sangat ketat agar tidak memuat atribut tambahan di luar data hasil wawancara (seperti nama siswa, NISN, atau kelas yang belum eksplisit).
+2.1 Table: pengguna
+Menampung data login dasar dari pewarisan kelas aktor pada dokumen Class Diagram.
+Column Name
+Data Type
+Constraints
+Description
+id
+VARCHAR(50)
+PRIMARY KEY
+ID unik pengguna sistem
+nama
+VARCHAR(100)
+NOT NULL
+Nama pengguna untuk keperluan profil
+role
+ENUM
+'ADMIN', 'GURU', 'WALI', 'SECURITY'
+Penentu hak akses rute halaman
+
+2.2 Table: siswa
+Representasi entitas siswa. Hanya memuat atribut yang dapat dipastikan dari dokumen sumber.
+Column Name
+Data Type
+Constraints
+Description
+id_siswa
+VARCHAR(50)
+PRIMARY KEY
+Kunci utama (diperlukan secara sistem)
+tanggal_lahir
+DATE
+NOT NULL
+Atribut terverifikasi dari Class Diagram
+kondisi_khusus
+TEXT
+NOT NULL
+Jenis kebutuhan khusus siswa
+
+2.3 Table: guru
+Representasi entitas guru terdaftar.
+Column Name
+Data Type
+Constraints
+Description
+id_guru
+VARCHAR(50)
+PRIMARY KEY, FK(pengguna.id)
+Menghubungkan ke data pengguna
+nama
+VARCHAR(100)
+NOT NULL
+Nama lengkap guru
+email
+VARCHAR(100)
+UNIQUE, NOT NULL
+Alamat email aktif
+nomor_hp
+VARCHAR(20)
+NOT NULL
+Nomor telepon guru
+
+2.4 Table: wali_murid
+Representasi entitas wali murid terdaftar.
+Column Name
+Data Type
+Constraints
+Description
+id_wali
+VARCHAR(50)
+PRIMARY KEY, FK(pengguna.id)
+Menghubungkan ke data pengguna
+nama
+VARCHAR(100)
+NOT NULL
+Nama lengkap wali
+alamat
+TEXT
+NOT NULL
+Alamat tempat tinggal
+nomor_hp
+VARCHAR(20)
+NOT NULL
+Nomor telepon aktif
+
+2.5 Table: pencatatan_perkembangan
+Menampung data transaksi input perkembangan harian guru. Memiliki relasi composition cascade terhadap entitas siswa.
+Column Name
+Data Type
+Constraints
+Description
+id_perkembangan
+BIGINT
+PRIMARY KEY, AUTO_INCREMENT
+ID unik transaksi
+id_siswa
+VARCHAR(50)
+FOREIGN KEY (siswa.id_siswa) ON DELETE CASCADE
+Terhapus otomatis jika data siswa dihapus
+id_guru
+VARCHAR(50)
+FOREIGN KEY (guru.id_guru)
+Guru pencatat
+tanggal
+DATE
+NOT NULL
+Tanggal pelaksanaan observasi
+kategori
+ENUM
+'BB', 'MB', 'BSH', 'BSB'
+Tingkat capaian perkembangan siswa
+catatan
+TEXT
+NOT NULL
+Deskripsi detail aspek kemampuan
+
+3. CODEBASE STRUCTURAL RULES (IMPLEMENTATION ALIGNMENT)
+Untuk menjaga integritas Source of Truth, tim pengembang (frontend/backend developer) wajib mematuhi aturan struktur kode berikut:
+3.1 Backend Controller Constraints
+Anti-Bulk Insertion Rule: Controller yang menangani rute /guru/pencatatan/* dilarang memiliki fungsi loop yang menerima array data banyak siswa sekaligus. Fungsi simpan harus ditulis berupa skema single-insert transaction.
+No-Approval Data Flag: Logika penyimpanan data perkembangan harus langsung memberikan nilai status is_published = true atau status = 'ACTIVE' secara default. Tidak boleh ada logika pengecekan kondisi persetujuan (approval state code) dari Admin atau Kepala Sekolah.
+3.2 Frontend Interaction Constraints
+Panic Button Handler Rule: Kode komponen tombol Panic Button pada halaman /dashboard akun Guru harus memicu fungsi pemanggilan API via WebSocket atau protokol real-time streaming secara langsung pada aksi onClick pertama. Modul kode dilarang memanggil komponen dialog modal konfirmasi (seperti window.confirm atau dialog box UI) untuk meminimalkan waktu tunggu kirim sinyal kedaruratan.
+4. CODE-TO-REQUIREMENT TRACEABILITY MATRIX
+Source Code Module / Endpoint
+Database Table
+Test Case Link
+Requirement ID (SoT-1)
+POST /api/auth/login
+pengguna
+TC-001-01
+FR-001-01, FR-001-02
+POST /api/pencatatan/perkembangan
+pencatatan_perkembangan
+TC-005-01
+FR-005-01, FR-005-02
+GET /api/monitoring/realtime
+pencatatan_perkembangan
+TC-008-01
+FR-008-01, FR-008-03 
+WEBSOCKET /api/emergency/panic
+Stateless Signaling
+TC-011-01
+FR-011-01, FR-011-02
+
+
