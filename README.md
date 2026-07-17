@@ -1,7 +1,9 @@
 # EduMonitor
 
 ## Deskripsi Singkat
-Aplikasi monitoring perkembangan siswa inklusi.
+Sistem Monitoring Perkembangan Siswa Berkebutuhan Khusus Berbasis Web merupakan aplikasi yang dirancang untuk membantu proses pemantauan perkembangan siswa di SLB Negeri Pembina Yogyakarta. Aplikasi ini mengintegrasikan empat peran pengguna, yaitu Admin Sekolah, Guru, Wali Murid, dan Security, sehingga proses pengelolaan data, pencatatan perkembangan siswa, pemantauan hasil belajar, hingga penanganan keadaan darurat dapat dilakukan dalam satu sistem.
+
+Guru dapat mencatat perkembangan, penilaian, dan jurnal harian siswa, sementara wali murid dapat memantau perkembangan anak secara real-time melalui dashboard yang telah disediakan. Admin Sekolah bertugas mengelola data guru, siswa, dan wali murid, sedangkan Security menerima notifikasi darurat melalui fitur Panic Button ketika terjadi kondisi yang memerlukan penanganan segera. Dengan adanya sistem ini, proses komunikasi dan monitoring perkembangan siswa menjadi lebih efektif, terintegrasi, dan mudah diakses oleh setiap pihak sesuai hak aksesnya.
 
 ## Anggota Tim
 | Nama | NIM |
